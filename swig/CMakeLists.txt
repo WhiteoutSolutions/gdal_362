@@ -25,20 +25,43 @@ set(GDAL_SWIG_COMMON_INTERFACE_FILES
 
 # BUILD_PYTHON_BINDINGS is already defined in ../CMakeLists.txt
 option(BUILD_JAVA_BINDINGS "Build Java bindings" ON)
-option(BUILD_CSHARP_BINDINGS "Build CSharp bindings" ON)
+option(BUILD_CSHARP_BINDINGS "Build CSharp bindings" OFF)
 
 if (BUILD_PYTHON_BINDINGS)
   add_subdirectory(python)
 endif ()
+#
+#if (SWIG_EXECUTABLE
+#    AND Java_JAVAC_EXECUTABLE
+#    AND Java_JAVADOC_EXECUTABLE
+#    AND JNI_FOUND
+#    AND ANT
+#    AND BUILD_JAVA_BINDINGS)
+#  add_subdirectory(java)
+#endif ()
+
+
+
+message(""***********HERE**********)
+message(STATUS "SWIG_EXECUTABLE: ${SWIG_EXECUTABLE}")
+message(STATUS "Java_JAVAC_EXECUTABLE: ${Java_JAVAC_EXECUTABLE}")
+message(STATUS "Java_JAVADOC_EXECUTABLE: ${Java_JAVADOC_EXECUTABLE}")
+message(STATUS "JNI_FOUND: ${JNI_FOUND}")
+message(STATUS "ANT: ${ANT}")
+message(STATUS "BUILD_JAVA_BINDINGS: ${BUILD_JAVA_BINDINGS}")
+
 
 if (SWIG_EXECUTABLE
-    AND Java_JAVAC_EXECUTABLE
-    AND Java_JAVADOC_EXECUTABLE
-    AND JNI_FOUND
-    AND ANT
-    AND BUILD_JAVA_BINDINGS)
+        AND Java_JAVAC_EXECUTABLE
+        AND Java_JAVADOC_EXECUTABLE
+        AND JNI_FOUND
+        AND ANT
+        AND BUILD_JAVA_BINDINGS)
+  message(""***********MADE IT HERE**********)
   add_subdirectory(java)
+
 endif ()
+
 
 if (BUILD_CSHARP_BINDINGS
     AND SWIG_EXECUTABLE

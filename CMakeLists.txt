@@ -13,6 +13,14 @@ include(cmake/modules/init.cmake)
 #
 # template files path
 set(GDAL_CMAKE_TEMPLATE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/template)
+
+
+
+#MJC CHANGES 02202023
+set(LDFLAGS=-dynamiclib -single_module ${wl}-flat_namespace ${wl}-undefined ${wl}suppress)
+
+
+
 #
 # Custom global properties
 define_property(
@@ -219,6 +227,50 @@ if (Python_Interpreter_FOUND)
     OUTPUT "python_executable.txt"
     CONTENT "${Python_EXECUTABLE}")
 endif()
+
+
+#MJC CHANGES 02202023
+find_package(JNI)
+if (JNI_FOUND)
+  message (STATUS "JNI_INCLUDE_DIRS=${JNI_INCLUDE_DIRS}")
+  message (STATUS "JNI_LIBRARIES=${JNI_LIBRARIES}")
+endif()
+
+find_package(Java)
+find_package(Java COMPONENTS Development)
+if(NOT JAVA_FOUND)
+  message("ERROR ------------ NO JAVA FOUND")
+endif()
+
+
+if(JAVA_FOUND)
+
+  #Specificially set the JAVA_HOME dir now in case you have multiple versions of JAVA.
+  message("JAVA FOUND")
+  set(JAVA_HOME  /Users/matthewclark/Library/Java/JavaVirtualMachines/openjdk-17.0.2/Contents/Home)
+
+
+
+
+  set(JAVADOC  ${JAVA_HOME}"/bin/javadoc")
+  set(JAVAC    ${JAVA_HOME}"/bin/javac")
+  set(JAVA    ${JAVA_HOME}"/bin/java")
+  set(JAR    ${JAVA_HOME}"/bin/jar")
+  set(JAVA_INCLUDE    ${JAVA_HOME}"/include")
+  set(LDFLAGS  -dynamiclib -single_module ${wl}-flat_namespace ${wl}-undefined ${wl}suppress)
+
+
+
+
+  message(STATUS "JAVA_HOME: ${JAVA_HOME}")
+  message(STATUS "JAVADOC: ${JAVADOC}")
+  message(STATUS "JAVAC ${JAVAC}")
+  message(STATUS "JAVA ${JAVA}")
+  message(STATUS "JAR ${JAR}")
+  message(STATUS "JAVA_INCLUDE ${JAVA_INCLUDE}")
+endif()
+
+
 
 #
 include(${CMAKE_CURRENT_SOURCE_DIR}/gdal.cmake)
